@@ -28,7 +28,14 @@ def main():
 
 
 def extract(filename, dir=None):
+    if not os.path.exists(filename):
+        d, n = os.path.split(filename)
+        names = os.listdir(d)
+        match = [target for target in names if target in n] 
+        assert len(match) == 1
+        filename = os.path.join(d, match[0])
     print('extract "{}"'.format(filename))
+
     with zipfile.ZipFile(filename, 'r') as zf:
         zf.extractall(dir)
 
